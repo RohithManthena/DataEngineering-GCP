@@ -1,8 +1,7 @@
 # DataEngineering-GCP
 
 Idea - 1
-Automating Cloud SQL store data syncronization with Google Big Query using Cloud Composer
-Used MySQL classicmodels database
+Automating Cloud SQL store data syncronization with Google Big Query using Cloud Composer.
 
 
 ## Security Aspects
