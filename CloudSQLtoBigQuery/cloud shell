@@ -1,0 +1,81 @@
+#set project 
+gcloud config set project cloudsql-bigquery
+
+#enable cloud composer api 
+gcloud services enable composer.googleapis.com
+
+#create a service account
+gcloud iam service-accounts create cloud-composer --display-name='Cloud Composer service account'
+
+#attach policy to service account
+gcloud projects add-iam-policy-binding cloudsql-bigquery --member=serviceAccount:cloud-composer@cloudsql-bigquery.iam.gserviceaccount.com --role=roles/composer.worker
+gcloud projects add-iam-policy-binding cloudsql-bigquery --member=serviceAccount:cloud-composer@cloudsql-bigquery.iam.gserviceaccount.com --role=roles/cloudsql.client
+gcloud projects add-iam-policy-binding cloudsql-bigquery --member=serviceAccount:cloud-composer@cloudsql-bigquery.iam.gserviceaccount.com --role=roles/bigquery.user
+gcloud projects add-iam-policy-binding cloudsql-bigquery --member=serviceAccount:cloud-composer@cloudsql-bigquery.iam.gserviceaccount.com --role=roles/bigquery.dataEditor
+
+#composer env with private gke cluster and default vpc 
+gcloud composer environments create data-sync-environment --location=us-central1 --zone=us-central1-c --service-account=cloud-composer@cloudsql-bigquery.iam.gserviceaccount.com --python-version=3 --enable-ip-alias --enable-private-environment --web-server-allow-all  --image-version=composer-1.12.4-airflow-1.10.10
+
+
+#cloudsql ---
+#enable api
+gcloud services enable servicenetworking.googleapis.com
+
+
+
+gcloud compute addresses create google-managed-services-default --global --purpose=VPC_PEERING --prefix-length=16 --network=default --project=cloudsql-bigquery
+
+gcloud services vpc-peerings connect --service=servicenetworking.googleapis.com --ranges=google-managed-services-default --network=default --project=cloudsql-bigquery
+
+
+#create cloudsql private instance ...
+gcloud beta sql instances create mysql-instance-prod --zone=us-central1-c --no-assign-ip --network=https://www.googleapis.com/compute/alpha/projects/cloudsql-bigquery/global/networks/default
+
+
+#create sql user
+gcloud sql users create suryamanthena --host=cloudsqlproxy~% --instance=mysql-instance-prod
+
+#create database
+gcloud sql databases create classicmodels --instance=mysql-instance-prod
+
+#create a gcs bucket
+gsutil mb -l us-central1 gs://cloudsql-bigquery
+
+#copy file from cloudshell to gcs bucket
+gsutil cp /home/suryanrvmanthena/mysqlsampledatabase.sql gs://cloudsql-bigquery/in/mysqlsampledatabase.sql
+
+
+#serviceaccount email address used by cloud sql instance 
+p663957454718-99zz3w@gcp-sa-cloud-sql.iam.gserviceaccount.com
+
+
+gsutil iam ch serviceAccount:p663957454718-99zz3w@gcp-sa-cloud-sql.iam.gserviceaccount.com:objectAdmin gs://cloudsql-bigquery
+
+
+#Execute the dump file importation
+gcloud sql import sql mysql-instance-prod gs://cloudsql-bigquery/in/mysqlsampledatabase.sql --database=classicmodels
+
+#clustername
+us-central1-data-sync-envir-464a31f0-gke
+
+#connecttocluster
+gcloud container clusters get-credentials us-central1-data-sync-envir-464a31f0-gke --zone=us-central1-c
+
+
+gcloud container clusters update us-central1-data-sync-envir-464a31f0-gke --zone us-central1-c --enable-master-authorized-networks --master-authorized-networks 34.71.66.15/32
+
+#create a bigquery dataset 
+bq --location=US mk --dataset cloudsql-bigquery:classicmodels
+
+#airflow dags folder
+gs://us-central1-data-sync-envir-464a31f0-bucket/dags
+
+#copy file to dag folder
+
+gsutil cp /home/suryamanthena/cloud_sql_to_bq.py gs://us-central1-data-sync-envir-464a31f0-bucket/dags/cloud_sql_to_bq.py
+
+
+
+
+#sql store to big query load with airflow .....
+
