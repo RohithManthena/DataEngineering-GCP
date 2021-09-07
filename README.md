@@ -4,7 +4,7 @@ Idea - 1
 Automating Cloud SQL store data syncronization with Google Big Query using Cloud Composer
 
 
-Security Aspects
+## Security Aspects
   Cloud composer environment with VPC-native (default VPC) and private GKE Cluster. 
   Private Cloud SQL Instance.
   VPC Peering connection betwwen Cloud SQL and Cloud Composer environment. 
