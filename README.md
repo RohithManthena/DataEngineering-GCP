@@ -6,11 +6,11 @@ Used MySQL classicmodels database
 
 
 ## Security Aspects
-###Cloud composer environment with VPC-native (default VPC) and private GKE Cluster. 
-###Private Cloud SQL Instance.
-###VPC Peering connection betwwen Cloud SQL and Cloud Composer environment. 
-###Connection to cloud sql happens only through proxy server.
-###To encrypt the connections I used cloud SQL proxy. Proxy client and Proxy server
+Cloud composer environment with VPC-native (default VPC) and private GKE Cluster. <br />
+Private Cloud SQL Instance. <br />
+VPC Peering connection betwwen Cloud SQL and Cloud Composer environment. <br />
+Connection to cloud sql happens only through proxy server.<br />
+To encrypt the connections I used cloud SQL proxy. Proxy client and Proxy server<br />
 
 
 
