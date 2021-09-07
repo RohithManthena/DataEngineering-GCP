@@ -15,7 +15,5 @@ To encrypt the connections I used cloud SQL proxy. Proxy client and Proxy server
 
 
 
-
-
-
-Before we can create a private cloud SQL instance, we need to create a VPC (Virtual Private Cloud) peering connection between a VPC network in the GCP project (here we choose the ‘default’ VPC network) and the VPC network in which the cloud SQL instance resides. Instances on the ‘default’ network will then be able to connect to the private Cloud SQL instance using that VPC peering connection. 
+Idea - 2
+Ingesting data from an API to GCS using pub/sub.
