@@ -10,7 +10,6 @@ DEFAULT_DATABASE = 'classicmodels'
 AGGREGATE_TABLE = 'top_five_employees'
 
 class TableConfig:
-    STANDARD_EXPORT_QUERY = None
     _STANDARD_EXPORT_QUERY = "SELECT * from {}"
 
     def __init__(self,
