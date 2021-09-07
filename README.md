@@ -4,12 +4,12 @@ Idea - 1
 Automating Cloud SQL store data syncronization with Google Big Query using Cloud Composer.
 
 ## Tech
-Cloud SQL
-Cloud Composer
-Google Kubernetes Engine
-BigQuery
-Google Cloud Storage
-Cloud Functions
+Cloud SQL <br />
+Cloud Composer <br />
+Google Kubernetes Engine <br />
+BigQuery <br />
+Google Cloud Storage <br />
+Cloud Functions <br />
 
 ## Security Aspects
 Cloud composer environment with VPC-native (default VPC) and private GKE Cluster. <br />
