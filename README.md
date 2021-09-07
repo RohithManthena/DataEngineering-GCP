@@ -1,15 +1,15 @@
 # DataEngineering-GCP
 
 Idea - 1
-Automating Cloud SQL store data with Google Big Query using Cloud Composer
-Securing the data and workloads using private IP connections. 
+Automating Cloud SQL store data syncronization with Google Big Query using Cloud Composer
+
 
 Security Aspects
-Cloud composer environment with VPC-native (default VPC) and private GKE Cluster. 
-Private Cloud SQL Instance.
-VPC Peering connection betwwen Cloud SQL and Cloud Composer environment. 
-Connection to cloud sql happens only through proxy server.
-To encrypt the connections I used cloud SQL proxy. Proxy client and Proxy server
+  Cloud composer environment with VPC-native (default VPC) and private GKE Cluster. 
+  Private Cloud SQL Instance.
+  VPC Peering connection betwwen Cloud SQL and Cloud Composer environment. 
+  Connection to cloud sql happens only through proxy server.
+  To encrypt the connections I used cloud SQL proxy. Proxy client and Proxy server
 
 Data
 MySQL classicmodels database
